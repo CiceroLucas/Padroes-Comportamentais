@@ -1,0 +1,42 @@
+# Arquivos de byte compilados
+__pycache__/
+
+# Arquivos de registro e saída
+*.log
+*.pot
+*.pyc
+
+# Ambientes virtuais
+venv/
+env/
+bin/
+lib/
+include/
+lib64/
+Scripts/
+
+# Dependências
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Cache de IDEs
+.vscode/
+.idea/
+
+# Arquivos de configuração
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+dist/
+build/
+*.db
+*.sqlite3
+
+# Arquivos temporários
+*~
+
+# Arquivos de configuração
+*.swp
+*.swo
+*.swn
