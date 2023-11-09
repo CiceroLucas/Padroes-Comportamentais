@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Template(ABC):
+class Template(ABC): #classe base
     def template_method(self):
         self.step1()
         self.step2()
@@ -13,7 +13,7 @@ class Template(ABC):
     def step2(self):
         pass
 
-class ConcreteClass(Template):
+class ConcreteClass(Template): #classe que herda de Template e implementa os passos
     def step1(self):
         print("Passo 1 executado")
 
