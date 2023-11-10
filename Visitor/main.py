@@ -1,48 +1,66 @@
-class Parte:
+from abc import ABC, abstractmethod
 
-    def _init_(self, numero, descricao):
+
+class Parte(ABC):
+
+    def __init__(self, numero, descricao):
         self.numero = numero
         self.descricao = descricao
+
+    @abstractmethod
+    def aceitar(self, visitante):
+        pass
 
 
 class Peca(Parte):
 
-    def _init_(self, numero, descricao, custo):
-        super()._init_(numero, descricao)
+    def __init__(self, numero, descricao, custo):
+        super().__init__(numero, descricao)
         self.custo = custo
 
-    def aceitar(self, v):
-        v.visitarPeca(self)
+    def aceitar(self, visitante):
+        visitante.visitar_peca(self)
 
 
 class Montagem(Parte):
 
-    def _init_(self, numero, descricao):
-        super()._init_(numero, descricao)
+    def __init__(self, numero, descricao):
+        super().__init__(numero, descricao)
         self.partes = []
 
-    def aceitar(self, v):
-        v.visitarMontagem(self)
+    def aceitar(self, visitante):
+        for parte in self.partes:
+            parte.aceitar(visitante)
+        visitante.visitar_montagem(self)
 
     def adicionar(self, nova_parte):
         self.partes.append(nova_parte)
 
 
-class VisitanteParte:
-    def visitarMontagem(self, m):
-        for p in m.partes:
-            p.aceitar(self)
+class VisitanteParte(ABC):
+
+    @abstractmethod
+    def visitar_montagem(self, montagem):
+        pass
+
+    @abstractmethod
+    def visitar_peca(self, peca):
+        pass
 
 
 class VisitanteCustoExpandido(VisitanteParte):
 
-    def _init_(self):
+    def __init__(self):
         self.custo = 0
 
-    def visitarPeca(self, p):
-        self.custo += p.custo
+    def visitar_peca(self, peca):
+        self.custo += peca.custo
+
+    def visitar_montagem(self, montagem):
+        pass
 
 
+# Exemplo de uso
 celular = Montagem("CP-7734", "Celular")
 tela = Peca("DS-1428", "Tela LCD", 14.37)
 alto_falante = Peca("SP-92", "Alto-falante", 3.50)
@@ -66,6 +84,6 @@ celular.adicionar(tampa_frontal)
 celular.adicionar(tampa_traseira)
 celular.adicionar(teclado)
 
-v = VisitanteCustoExpandido()
-celular.aceitar(v)
-print(v.custo)
+visitante_custo_expandido = VisitanteCustoExpandido()
+celular.aceitar(visitante_custo_expandido)
+print(visitante_custo_expandido.custo)
